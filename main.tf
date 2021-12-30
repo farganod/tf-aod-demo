@@ -8,6 +8,12 @@ data "aws_ami" "ami" {
   }
 }
 
+data "aws_instance" "demo_data" {
+  count = var.instance_count
+  instance_id = aws_instance.demo[count.index].id
+
+}
+
 resource "aws_instance" "demo" {
   count = var.instance_count
   ami           = data.aws_ami.ami.id
@@ -18,8 +24,15 @@ resource "aws_instance" "demo" {
   }
 }
 
-resource "aws_ebs_volume" "data" {
-  count = var.volume_count
-  availability_zone = aws_
+resource "aws_ebs_volume" "volume" {
+  count = var.instance_count
+  availability_zone = data.aws_instance.demo_data[count.index].availability_zone
   size              = var.volume_size[var.instance_size]
+}
+
+resource "aws_volume_attachment" "volume_att" {
+  count = var.instance_count
+  device_name = "/dev/sdh"
+  volume_id   = aws_ebs_volume.volume[count.index].id
+  instance_id = aws_instance.demo[count.index].id
 }
