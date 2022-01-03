@@ -1,6 +1,6 @@
 output "image_id" { 
     description = "AMI ID used to deploy the instance"
-    value = data.aws_ami.ami.id
+    value = data.aws_instance.demo_data.0.ami
 }
 
 output "instance_ids" {

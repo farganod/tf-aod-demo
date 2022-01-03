@@ -18,14 +18,14 @@ variable instance_type {
         "small" = "t3.small"
         "medium" = "t3.medium"
         "large" = "t3.large"
-        "x-large" = "x-large"
+        "x-large" = "t3x-large"
     }
 }
 
 variable image {
     type = string
     description = "Type of image you want to deploy: linux or windows"
-    default = "windows"
+    default = "linux"
 }
 
 variable owner {
